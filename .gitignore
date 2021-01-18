@@ -1,1 +1,6 @@
 checkpoints/*
+results
+sample_images
+*.obj
+*.DS_Store
+*__pycache__

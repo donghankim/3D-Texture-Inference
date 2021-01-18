@@ -6,6 +6,8 @@ from .geometry import *
 import cv2
 from PIL import Image
 from tqdm import tqdm
+import pdb
+import pywavefront
 
 def reshape_multiview_tensors(image_tensor, calib_tensor):
     # Careful here! Because we put single view and multiview together,
@@ -70,7 +72,7 @@ def gen_mesh(opt, net, cuda, data, save_path, use_octree=True):
         print(e)
         print('Can not create marching cubes at this time.')
 
-def gen_mesh_color(opt, netG, netC, cuda, data, save_path, use_octree=True):
+def gen_mesh_color(opt, netG, netC, cuda, data, save_path, use_octree=True, color_only = False, tex2shape = None):
     image_tensor = data['img'].to(device=cuda)
     calib_tensor = data['calib'].to(device=cuda)
 
@@ -88,11 +90,18 @@ def gen_mesh_color(opt, netG, netC, cuda, data, save_path, use_octree=True):
             save_img_list.append(save_img)
         save_img = np.concatenate(save_img_list, axis=1)
         Image.fromarray(np.uint8(save_img[:,:,::-1])).save(save_img_path)
+        
+        # get rbg values for tex2shape
+        if color_only:
+            verts = np.asarray(tex2shape.vertices)
+            faces = np.asarray(tex2shape.mesh_list[0].faces)
 
-        verts, faces, _, _ = reconstruction(
+        else:
+            verts, faces, _, _ = reconstruction(
             netG, cuda, calib_tensor, opt.resolution, b_min, b_max, use_octree=use_octree)
 
         # Now Getting colors
+        pdb.set_trace()
         verts_tensor = torch.from_numpy(verts.T).unsqueeze(0).to(device=cuda).float()
         verts_tensor = reshape_sample_tensor(verts_tensor, opt.num_views)
         color = np.zeros(verts.shape)
@@ -110,6 +119,8 @@ def gen_mesh_color(opt, netG, netC, cuda, data, save_path, use_octree=True):
     except Exception as e:
         print(e)
         print('Can not create marching cubes at this time.')
+        
+
 
 def adjust_learning_rate(optimizer, epoch, lr, schedule, gamma):
     """Sets the learning rate to the initial LR decayed by schedule"""
