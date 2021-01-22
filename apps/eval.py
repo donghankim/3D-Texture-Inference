@@ -96,15 +96,15 @@ class Evaluator:
         :return:
         '''
         opt = self.opt
-        tex2shape = pywavefront.Wavefront('tex2shape_out.obj')
+        tex2shape = pywavefront.Wavefront('tex2shape_out.obj', create_materials = True,collect_faces=True)
         with torch.no_grad():
             self.netG.eval()
             if self.netC:
                 self.netC.eval()
             save_path = '%s/%s/result_%s.obj' % (opt.results_path, opt.name, data['name'])
             if self.netC:
-                #gen_mesh_color(opt, self.netG, self.netC, self.cuda, data, save_path, use_octree=use_octree)
-                gen_mesh_color(opt, self.netG, self.netC, self.cuda, data, save_path, use_octree=use_octree, color_only=True, tex2shape = tex2shape)
+                gen_mesh_color(opt, self.netG, self.netC, self.cuda, data, save_path, use_octree=use_octree)
+                #gen_mesh_color(opt, self.netG, self.netC, self.cuda, data, save_path, use_octree=use_octree, color_only=True, tex2shape = tex2shape)
             else:
                 gen_mesh(opt, self.netG, self.cuda, data, save_path, use_octree=use_octree)
     

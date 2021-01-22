@@ -95,13 +95,11 @@ def gen_mesh_color(opt, netG, netC, cuda, data, save_path, use_octree=True, colo
         if color_only:
             verts = np.asarray(tex2shape.vertices)
             faces = np.asarray(tex2shape.mesh_list[0].faces)
-
         else:
             verts, faces, _, _ = reconstruction(
             netG, cuda, calib_tensor, opt.resolution, b_min, b_max, use_octree=use_octree)
 
         # Now Getting colors
-        pdb.set_trace()
         verts_tensor = torch.from_numpy(verts.T).unsqueeze(0).to(device=cuda).float()
         verts_tensor = reshape_sample_tensor(verts_tensor, opt.num_views)
         color = np.zeros(verts.shape)
