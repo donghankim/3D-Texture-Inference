@@ -4,7 +4,7 @@ This repository is a forked repository from "[PIFu: Pixel-Aligned Implicit Funct
 
 [Original Project Page (PIFu)](https://shunsukesaito.github.io/PIFu/)<br/>
 [Tex2shape Github Repository](https://github.com/thmoa/tex2shape)<br/>
-[DensPose Github Respository](https://github.com/facebookresearch/detectron2/tree/master/projects/DensePose)<br/>
+[DensePose Github Respository](https://github.com/facebookresearch/detectron2/tree/master/projects/DensePose)<br/>
 ![Teaser Image](https://shunsukesaito.github.io/PIFu/resources/images/teaser.png)
 
 The main idea behind this project is to use the texture inference model and apply it to the output of the Tex2shape output. The Tex2shape model produces a more accurate and a higher resolution 3D human model, but without any texture. Because the texture inference network used in PIFu does not rely on a proprietary 3D surface, applying the PIFu texture inference network directly onto the Tex2shape 3D surface should not be an issue (please refer to the <strong>report.pdf</strong> for a detailed summary regarding my exploration).
