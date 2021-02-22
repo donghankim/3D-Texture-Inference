@@ -2,9 +2,9 @@
 
 This repository is a forked repository from "[PIFu: Pixel-Aligned Implicit Function for High-Resolution Clothed Human Digitization](https://arxiv.org/abs/1905.05172)", with my personal changes to investigate the possibility of using the texture inference network to infer RGB values for a 3D human model.
 
-[Original Project Page (PIFu)](https://shunsukesaito.github.io/PIFu/)
-[Tex2shape Github Repository](https://github.com/thmoa/tex2shape)
-[DensPose Github Respository](https://github.com/facebookresearch/detectron2/tree/master/projects/DensePose)
+[Original Project Page (PIFu)](https://shunsukesaito.github.io/PIFu/)<br/>
+[Tex2shape Github Repository](https://github.com/thmoa/tex2shape)<br/>
+[DensPose Github Respository](https://github.com/facebookresearch/detectron2/tree/master/projects/DensePose)<br/>
 ![Teaser Image](https://shunsukesaito.github.io/PIFu/resources/images/teaser.png)
 
 The main idea behind this project is to use the texture inference model and apply it to the output of the Tex2shape output. The Tex2shape model produces a more accurate and a higher resolution 3D human model, but without any texture. Because the texture inference network used in PIFu does not rely on a proprietary 3D surface, applying the PIFu texture inference network directly onto the Tex2shape 3D surface should not be an issue (please refer to the <strong>report.pdf</strong> for a detailed summary regarding my exploration).
@@ -14,10 +14,8 @@ You first will need to create an environment that meets all the requirements for
 
 After doing so, you will need to preprocess your input images (generate a mask). You can do this using the following python command:
 ```python3
-cd 3D-Texture-Inference/apps
-
 # for generating the mask of one example image
-python gen_mask.py
+python apps/gen_mask.py
 ```
 The file gen_mask.py reads one image. You will need to change your input image to <strong>demo.png</strong> or change the code file. After you have your input image and its corresponding mask, you can follow the original PIFu README.md file to follow through with the rest of the execution.
 
