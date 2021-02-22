@@ -66,6 +66,7 @@ class Evaluator:
     def load_image(self, image_path, mask_path):
         # Name
         img_name = os.path.splitext(os.path.basename(image_path))[0]
+        #pdb.set_trace()
         # Calib
         B_MIN = np.array([-1, -1, -1])
         B_MAX = np.array([1, 1, 1])
@@ -96,15 +97,15 @@ class Evaluator:
         :return:
         '''
         opt = self.opt
-        tex2shape = pywavefront.Wavefront('tex2shape_out.obj', create_materials = True,collect_faces=True)
+        tex2shape = pywavefront.Wavefront('tex2shape_demo.obj', create_materials = True,collect_faces=True)
         with torch.no_grad():
             self.netG.eval()
             if self.netC:
                 self.netC.eval()
             save_path = '%s/%s/result_%s.obj' % (opt.results_path, opt.name, data['name'])
             if self.netC:
-                gen_mesh_color(opt, self.netG, self.netC, self.cuda, data, save_path, use_octree=use_octree)
-                #gen_mesh_color(opt, self.netG, self.netC, self.cuda, data, save_path, use_octree=use_octree, color_only=True, tex2shape = tex2shape)
+                #gen_mesh_color(opt, self.netG, self.netC, self.cuda, data, save_path, use_octree=use_octree)
+                gen_mesh_color(opt, self.netG, self.netC, self.cuda, data, save_path, use_octree=use_octree, color_only=True, tex2shape = tex2shape)
             else:
                 gen_mesh(opt, self.netG, self.cuda, data, save_path, use_octree=use_octree)
     
@@ -118,11 +119,23 @@ if __name__ == '__main__':
     test_masks = [f[:-4]+'_mask.png' for f in test_images]
 
     print("num; ", len(test_masks))
-
     for image_path, mask_path in tqdm.tqdm(zip(test_images, test_masks)):
         try:
             print(image_path, mask_path)
+            #pdb.set_trace()
             data = evaluator.load_image(image_path, mask_path)
             evaluator.eval(data, True)
         except Exception as e:
            print("error:", e.args)
+    
+    """
+    image_path = "../sample_images/test.png"
+    mask_path = "../sample_images/test_mask.png"
+
+    try:
+        print(image_path, mask_path)
+        data = evaluator.load_image(image_path, mask_path)
+        evaluator.eval(data, True)
+    except Exception as e:
+        print("error:", e.args)
+    """
